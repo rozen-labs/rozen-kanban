@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} · Rozen Kanban{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 520px; margin: 1rem auto;">
+  <h1>{{ title }}</h1>
+  <p class="muted">Project: {{ project.name }}</p>
+  <form method="post" class="stack">{% csrf_token %}
+    {% for field in form.visible_fields %}
+      <div>
+        {{ field.label_tag }}
+        {{ field }}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+    <button class="btn primary" type="submit">Save</button>
+  </form>
+</div>
+{% endblock %}

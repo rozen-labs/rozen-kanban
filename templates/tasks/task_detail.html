@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}{{ task.key }} · Rozen Kanban{% endblock %}
+{% block content %}
+<div class="split">
+  <section class="card">
+    <div class="topline">
+      <div>
+        <div class="badge">{{ task.key }}</div>
+        <h1 style="margin-bottom:.25rem">{{ task.title }}</h1>
+        <div class="muted">{{ task.project.name }} · {{ task.column.name }}</div>
+      </div>
+      <a class="btn" href="{% url 'task_edit' task.key %}">Edit</a>
+    </div>
+    <p>{{ task.description|linebreaksbr }}</p>
+    <div class="grid cols-2">
+      <div><strong>Priority:</strong> {{ task.priority }}</div>
+      <div><strong>Due:</strong> {{ task.due_date|default:'—' }}</div>
+      <div><strong>Assignee:</strong> {{ task.assignee.username|default:'Unassigned' }}</div>
+      <div><strong>Reporter:</strong> {{ task.reporter.username }}</div>
+    </div>
+    <h2>Labels</h2>
+    <div class="task-meta">
+      {% for label in task.labels.all %}<span class="badge">{{ label.name }}</span>{% empty %}<span class="muted">No labels</span>{% endfor %}
+    </div>
+    <h2 style="margin-top:1.5rem">Comments</h2>
+    <form method="post" class="stack">{% csrf_token %}
+      {{ comment_form.body }}
+      <button class="btn primary" type="submit">Add comment</button>
+    </form>
+    <div class="timeline" style="margin-top:1rem">
+      {% for comment in task.comments.all %}
+        <div class="timeline-item">
+          <strong>{{ comment.author.username }}</strong> <span class="muted">{{ comment.created_at }}</span>
+          <div>{{ comment.body|linebreaksbr }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  <aside class="card">
+    <h2>Activity</h2>
+    <div class="timeline">
+      {% for event in task.audit_events.all %}
+        <div class="timeline-item">
+          <strong>{{ event.action }}</strong>
+          <div class="muted">{{ event.actor.username|default:'System' }} · {{ event.created_at }}</div>
+          <div>{{ event.message }}</div>
+          {% if event.before or event.after %}
+            <div class="muted"><code>{{ event.before }}</code> → <code>{{ event.after }}</code></div>
+          {% endif %}
+        </div>
+      {% empty %}
+        <p class="muted">No activity yet.</p>
+      {% endfor %}
+    </div>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+[tool.ruff]
+line-length = 200
+target-version = "py311"
+exclude = ["**/migrations/*.py", ".venv", "venv", "site-packages"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "kanban.settings"
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = ["e2e: end-to-end browser tests"]

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Login · Rozen Kanban{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 520px; margin: 2rem auto;">
+  <h1>Login</h1>
+  <form method="post" class="stack">{% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      {{ form.identifier.label_tag }}
+      {{ form.identifier }}
+    </div>
+    <div>
+      {{ form.password.label_tag }}
+      {{ form.password }}
+    </div>
+    <button class="btn primary" type="submit">Login</button>
+  </form>
+  <p class="muted">No account? <a href="{% url 'register' %}">Register</a></p>
+</div>
+{% endblock %}

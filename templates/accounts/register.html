@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Register · Rozen Kanban{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 560px; margin: 2rem auto;">
+  <h1>Create account</h1>
+  <form method="post" class="stack">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form.visible_fields %}
+      <div>
+        {{ field.label_tag }}
+        {{ field }}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+    <button class="btn primary" type="submit">Create account</button>
+  </form>
+</div>
+{% endblock %}
