@@ -19,7 +19,13 @@ Self-hosted, YouTrack-style Kanban for software teams.
 ## Quick start
 
 ```bash
-docker compose up -d --build
+make up
+```
+
+If you prefer the raw command:
+
+```bash
+DOCKER_CONFIG=$HOME/.docker sudo -E docker compose up -d --build
 ```
 
 ## Default admin bootstrap

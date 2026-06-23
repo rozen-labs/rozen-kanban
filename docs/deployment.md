@@ -8,7 +8,13 @@
 ## Single-command deployment
 
 ```bash
-docker compose up -d --build
+make up
+```
+
+Or, if you want the raw command:
+
+```bash
+DOCKER_CONFIG=$HOME/.docker sudo -E docker compose up -d --build
 ```
 
 ## Environment variables
