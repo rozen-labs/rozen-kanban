@@ -27,7 +27,12 @@
     <section class="panel column" data-column-id="{{ column.column.id }}">
       <h3 class="column-header">
         <span>{{ column.column.name }}</span>
-        <span class="badge column-count">{{ column.count }}</span>
+        <span class="column-header-actions">
+          <span class="badge column-count">{{ column.count }}</span>
+          {% if column.column.key == 'backlog' %}
+            <a class="btn small column-add-button" href="{% url 'task_create' project.slug %}?column=backlog" aria-label="Create task in Backlog">+</a>
+          {% endif %}
+        </span>
       </h3>
       {% for task in column.tasks %}
         <article class="card task-card" draggable="true" data-task-id="{{ task.key }}">

@@ -80,7 +80,12 @@ label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
   margin: 0 0 0.75rem;
 }
 .column-header h3 { margin: 0; }
+.column-header-actions { display: inline-flex; align-items: center; gap: 0.5rem; }
 .column-count { color: var(--muted); font-weight: 800; }
+.column-add-button {
+  width: 2rem; height: 2rem; padding: 0; border-radius: 999px; font-size: 1.1rem;
+  font-weight: 800; line-height: 1;
+}
 .task-card { margin-bottom: 0.75rem; cursor: grab; }
 .task-card:active { cursor: grabbing; }
 .task-card.dragging { opacity: 0.45; }

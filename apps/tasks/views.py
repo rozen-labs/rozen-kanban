@@ -17,14 +17,20 @@ def task_create(request, slug: str):
     project = get_object_or_404(Project, slug=slug)
     if not can_manage_project(request.user, project):
         raise Http404()
+    target_column = None
+    column_key = request.GET.get("column") or request.POST.get("column")
+    if column_key:
+        target_column = get_object_or_404(Column, board=project.board, key=column_key)
+    else:
+        target_column = project.board.columns.order_by("position").first()
     form = TaskForm(request.POST or None)
     form.fields["labels"].queryset = project.labels.all()
     form.fields["assignee"].queryset = request.user.__class__.objects.filter(project_memberships__project=project).distinct()
     if request.method == "POST" and form.is_valid():
-        task = create_task(project=project, reporter=request.user, **form.cleaned_data)
+        task = create_task(project=project, reporter=request.user, column=target_column, **form.cleaned_data)
         messages.success(request, f"Task {task.key} created.")
         return redirect("task_detail", key=task.key)
-    return render(request, "tasks/task_form.html", {"form": form, "project": project, "title": "Create task"})
+    return render(request, "tasks/task_form.html", {"form": form, "project": project, "title": "Create task", "target_column": target_column})
 
 @login_required
 def task_detail(request, key: str):
