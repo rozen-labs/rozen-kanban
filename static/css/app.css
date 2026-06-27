@@ -75,7 +75,12 @@ label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
   overflow-x: auto; padding-bottom: 0.5rem;
 }
 .column { min-height: 60vh; padding: 0.75rem; }
-.column h3 { margin: 0 0 0.75rem; }
+.column-header {
+  display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+.column-header h3 { margin: 0; }
+.column-count { color: var(--muted); font-weight: 800; }
 .task-card { margin-bottom: 0.75rem; cursor: grab; }
 .task-card:active { cursor: grabbing; }
 .task-card.dragging { opacity: 0.45; }

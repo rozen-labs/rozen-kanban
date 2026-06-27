@@ -50,16 +50,27 @@ def board_view(request, slug: str):
         tasks = tasks.filter(assignee__username__icontains=assignee)
     if label:
         tasks = tasks.filter(labels__name__icontains=label)
-    tasks = tasks.distinct().order_by("column__position", "order", "sequence")
+    tasks = list(tasks.distinct().order_by("column__position", "order", "sequence"))
     columns = project.board.columns.all()
+    columns_data = []
+    tasks_by_column = {column.id: [] for column in columns}
+    column_counts = {column.id: 0 for column in columns}
+    for task in tasks:
+        tasks_by_column[task.column_id].append(task)
+        column_counts[task.column_id] += 1
+    for column in columns:
+        columns_data.append({
+            "column": column,
+            "count": column_counts[column.id],
+            "tasks": tasks_by_column[column.id],
+        })
     task_form = TaskForm()
     task_form.fields["labels"].queryset = project.labels.all()
     task_form.fields["assignee"].queryset = request.user.__class__.objects.filter(project_memberships__project=project).distinct()
     label_form = LabelForm()
     return render(request, "boards/board.html", {
         "project": project,
-        "columns": columns,
-        "tasks": tasks,
+        "columns": columns_data,
         "task_form": task_form,
         "label_form": label_form,
         "filters": {"q": q, "priority": priority, "assignee": assignee, "label": label},

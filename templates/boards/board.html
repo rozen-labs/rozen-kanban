@@ -24,25 +24,25 @@
 
 <div class="board">
   {% for column in columns %}
-    <section class="panel column" data-column-id="{{ column.id }}">
-      <h3>{{ column.name }}</h3>
-      <div class="muted" style="margin-bottom:.5rem">{{ column.tasks.count }} tasks</div>
-      {% for task in tasks %}
-        {% if task.column_id == column.id %}
-          <article class="card task-card" draggable="true" data-task-id="{{ task.key }}">
-            <div class="topline" style="margin-bottom:.35rem">
-              <strong><a href="{% url 'task_detail' task.key %}">{{ task.key }}</a></strong>
-              <span class="badge">{{ task.priority }}</span>
-            </div>
-            <div>{{ task.title }}</div>
-            <div class="muted" style="font-size:.9rem; margin-top:.4rem;">{{ task.assignee.username|default:'Unassigned' }}</div>
-            <div class="task-meta">
-              {% for label in task.labels.all %}
-                <span class="badge" style="border-color: {{ label.color }}">{{ label.name }}</span>
-              {% endfor %}
-            </div>
-          </article>
-        {% endif %}
+    <section class="panel column" data-column-id="{{ column.column.id }}">
+      <h3 class="column-header">
+        <span>{{ column.column.name }}</span>
+        <span class="badge column-count">{{ column.count }}</span>
+      </h3>
+      {% for task in column.tasks %}
+        <article class="card task-card" draggable="true" data-task-id="{{ task.key }}">
+          <div class="topline" style="margin-bottom:.35rem">
+            <strong><a href="{% url 'task_detail' task.key %}">{{ task.key }}</a></strong>
+            <span class="badge">{{ task.priority }}</span>
+          </div>
+          <div>{{ task.title }}</div>
+          <div class="muted" style="font-size:.9rem; margin-top:.4rem;">{{ task.assignee.username|default:'Unassigned' }}</div>
+          <div class="task-meta">
+            {% for label in task.labels.all %}
+              <span class="badge" style="border-color: {{ label.color }}">{{ label.name }}</span>
+            {% endfor %}
+          </div>
+        </article>
       {% endfor %}
     </section>
   {% endfor %}
