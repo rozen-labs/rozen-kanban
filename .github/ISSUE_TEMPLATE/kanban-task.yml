@@ -1,0 +1,80 @@
+name: Kanban task
+description: Use this template for bugs, feature requests, and other kanban work items.
+title: "[Kanban]: "
+labels:
+  - kanban
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      description: What kind of task is this?
+      options:
+        - Bug
+        - Feature request
+        - Task
+        - Improvement
+    validations:
+      required: true
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      description: Keep it to one sentence.
+      placeholder: What needs to change?
+    validations:
+      required: true
+  - type: textarea
+    id: problem_goal
+    attributes:
+      label: Problem / goal
+      description: Describe the issue, goal, or context.
+      placeholder: Why is this needed?
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: What should happen after the work is done?
+      placeholder: Describe the desired outcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this?
+      options:
+        - Low
+        - Medium
+        - High
+        - Urgent
+    validations:
+      required: true
+  - type: textarea
+    id: assignee
+    attributes:
+      label: Assignee / owner
+      description: Who should own this?
+      placeholder: Hermes, a person, or leave context if undecided.
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: List the minimum conditions that make this done.
+      placeholder: |-
+        - ...
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this matters
+      description: Optional context for triage and prioritization.
+      placeholder: Helps reduce back-and-forth and speeds up routing.
+    validations:
+      required: false
