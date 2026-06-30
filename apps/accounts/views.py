@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -15,7 +16,7 @@ def register_view(request):
     form = RegistrationForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
-        login(request, user)
+        login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
         create_project_with_board(creator=user, name=f"{user.username}'s Workspace", description="Personal workspace")
         messages.success(request, "Welcome aboard.")
         return redirect("dashboard")
